@@ -1,9 +1,9 @@
-   <!DOCTYPE html>
-<html lang="ru">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Плеер с двумя каналами</title>
+    <title>Player with Two Channels</title>
     <style>
         body {
             display: flex;
@@ -14,12 +14,37 @@
             margin: 0;
         }
         .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
         }
-        video {
+        .video-container {
+            position: relative;
             width: 80%;
-            max-width: 800px;
-            margin-bottom: 20px;
+            max-width: 1200px;
+            margin-bottom: 10px;
+        }
+        video {
+            width: 100%;
+        }
+        .custom-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .custom-controls button {
+            padding: 10px;
+            margin: 0 5px;
+            font-size: 14px;
+            cursor: pointer;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .custom-controls button:hover {
+            background-color: rgba(0, 0, 0, 0.8);
         }
         .buttons {
             margin-top: 10px;
@@ -31,13 +56,17 @@
             cursor: pointer;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
     <div class="container">
-        <video id="videoPlayer" controls>
-            <source src="https://d18b0e6mopany4.cloudfront.net/out/v1/08bc71cf0a0f4712b6b03c732b0e6d25/index_3.m3u8" type="application/x-mpegURL">
-            Ваш браузер не поддерживает воспроизведение видео.
-        </video>
+        <div class="video-container">
+            <video id="videoPlayer" controls></video>
+        </div>
+        <div class="custom-controls">
+            <button onclick="seek(-10)">10s Back</button>
+            <button onclick="seek(10)">10s Forward</button>
+        </div>
         <div class="buttons">
             <button onclick="switchChannel('https://d18b0e6mopany4.cloudfront.net/out/v1/08bc71cf0a0f4712b6b03c732b0e6d25/index_3.m3u8')">13 LIVE</button>
             <button onclick="switchChannel('https://d2lckchr9cxrss.cloudfront.net/out/v1/c73af7694cce4767888c08a7534b503c/index_3.m3u8')">26 LIVE</button>
@@ -45,11 +74,29 @@
     </div>
 
     <script>
+        var videoPlayer = document.getElementById('videoPlayer');
+        var hls = new Hls();
+
         function switchChannel(url) {
-            var videoPlayer = document.getElementById('videoPlayer');
-            videoPlayer.src = url;
-            videoPlayer.play();
+            if (Hls.isSupported()) {
+                hls.loadSource(url);
+                hls.attachMedia(videoPlayer);
+            } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
+                videoPlayer.src = url;
+                videoPlayer.addEventListener('loadedmetadata', function() {
+                    videoPlayer.play();
+                });
+            } else {
+                alert('Your browser does not support HLS.');
+            }
         }
+
+        function seek(seconds) {
+            videoPlayer.currentTime += seconds;
+        }
+
+        // Load the first channel by default
+        switchChannel('https://d18b0e6mopany4.cloudfront.net/out/v1/08bc71cf0a0f4712b6b03c732b0e6d25/index_3.m3u8');
     </script>
 </body>
 </html>
