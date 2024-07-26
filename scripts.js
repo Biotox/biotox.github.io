@@ -39,9 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function togglePlayPause() {
         if (videoPlayer.paused) {
-            videoPlayer.play().catch(error => {
-                console.log('Playback failed:', error);
-            });
+            videoPlayer.play();
         } else {
             videoPlayer.pause();
         }
@@ -85,30 +83,22 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function attemptPlay() {
-        if (videoPlayer.readyState >= 2) { // Ensure video is ready to play
-            videoPlayer.muted = false; // Ensure the video is unmuted
-            videoPlayer.play().catch(error => {
-                console.log('Autoplay failed:', error);
-            });
-        } else {
-            // Retry playback after a short delay
-            setTimeout(attemptPlay, 1000);
-        }
+        videoPlayer.play().catch(error => {
+            console.log('Autoplay failed:', error);
+        });
     }
 
     function handleLoadedData() {
+        videoPlayer.muted = false; // Ensure the video is unmuted
         attemptPlay();
     }
 
     function handlePlay() {
-        videoPlayer.muted = false; // Ensure video is unmuted
-        videoPlayer.play().catch(error => {
-            console.log('Playback failed:', error);
-        });
+        updatePlayPauseButton();
     }
 
     playPauseButton.addEventListener('click', togglePlayPause);
-    videoPlayer.addEventListener('play', updatePlayPauseButton);
+    videoPlayer.addEventListener('play', handlePlay);
     videoPlayer.addEventListener('pause', updatePlayPauseButton);
     videoPlayer.addEventListener('timeupdate', updateSeekBar);
     seekBar.addEventListener('input', seekVideo);
@@ -121,7 +111,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Ensure the video starts automatically
     videoPlayer.addEventListener('loadeddata', handleLoadedData);
-    videoPlayer.addEventListener('play', handlePlay);
     
     // Load the first channel by default
     switchChannel(currentUrl);
