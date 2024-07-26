@@ -1,0 +1,138 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.video-player-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    max-width: 800px;
+    position: relative;
+}
+
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    background-color: black;
+    overflow: hidden; /* Ensure no overflow */
+}
+
+.video-player {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure video covers the entire container */
+    outline: none;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.control-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 0 5px;
+}
+
+.seek-bar {
+    flex: 1;
+    margin: 0 10px;
+}
+
+.time-display {
+    color: white;
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.channel-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.channel-buttons button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.live-button {
+    background-color: red; /* Red background for Live button */
+    color: white; /* White text color */
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+/* Fullscreen styles */
+:fullscreen .video-player-container {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+}
+
+:fullscreen .video-wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+:fullscreen .video-player {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure video fits correctly in fullscreen */
+}
+
+:fullscreen .controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .video-player-container {
+        width: 100%;
+        max-width: none;
+    }
+    
+    .channel-buttons {
+        flex-direction: column; /* Stack buttons vertically on smaller screens */
+        align-items: center;
+    }
+
+    .channel-buttons button {
+        margin: 5px 0; /* Adjust margin for vertical layout */
+    }
+}
