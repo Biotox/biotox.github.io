@@ -1,33 +1,55 @@
+   <!DOCTYPE html>
+<html lang="ru">
+<head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       <link href="https://vjs.zencdn.net/8.9.0/video-js.css" rel="stylesheet" />
-       <script defer src="https://vjs.zencdn.net/8.9.0/video.min.js"></script>
-13 LIVE
-<center>
-    <video
-    id="my-video"
-    class="video-js"
-    controls
-    preLoad="auto"
-    width="360"
-    height="220"
-    data-setup="{}"
-    >
-    <source src=" https://d18b0e6mopany4.cloudfront.net/out/v1/08bc71cf0a0f4712b6b03c732b0e6d25/index_3.m3u8" type="application/x-mpegURL">
+    <title>Плеер с двумя каналами</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+        }
+        video {
+            width: 80%;
+            max-width: 800px;
+            margin-bottom: 20px;
+        }
+        .buttons {
+            margin-top: 10px;
+        }
+        .buttons button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <video id="videoPlayer" controls>
+            <source src="https://d18b0e6mopany4.cloudfront.net/out/v1/08bc71cf0a0f4712b6b03c732b0e6d25/index_3.m3u8" type="application/x-mpegURL">
+            Ваш браузер не поддерживает воспроизведение видео.
         </video>
-    </center>
-26 LIVE
-<center>
-    <video
-    id="my-video"
-    class="video-js"
-    controls
-    preLoad="auto"
-    width="360"
-    height="220"
-    data-setup="{}"
-    >
-    <source src=" https://d2lckchr9cxrss.cloudfront.net/out/v1/c73af7694cce4767888c08a7534b503c/index_3.m3u8" type="application/x-mpegURL">
-        </video>
-    </center>
+        <div class="buttons">
+            <button onclick="switchChannel('https://d18b0e6mopany4.cloudfront.net/out/v1/08bc71cf0a0f4712b6b03c732b0e6d25/index_3.m3u8')">13 LIVE</button>
+            <button onclick="switchChannel('https://d2lckchr9cxrss.cloudfront.net/out/v1/c73af7694cce4767888c08a7534b503c/index_3.m3u8')">26 LIVE</button>
+        </div>
+    </div>
+
+    <script>
+        function switchChannel(url) {
+            var videoPlayer = document.getElementById('videoPlayer');
+            videoPlayer.src = url;
+            videoPlayer.play();
+        }
+    </script>
+</body>
+</html>
