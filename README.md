@@ -1,1 +1,1 @@
- Kind of player
+Custom Player Style
