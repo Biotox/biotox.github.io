@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function hideControls() {
         hideControlsTimeout = setTimeout(() => {
             customPlayer.querySelector('.controls').style.display = 'none';
-        }, 1000);
+        }, 3000);
     }
 
     function handleMouseMove() {
