@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom JW Player Style</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="custom-player">
+        <video id="videoPlayer" class="video" preload="auto"></video>
+        <div class="controls">
+            <!-- Rewind Button -->
+            <button id="skipBack" class="btn"><i class="fas fa-backward"></i></button>
+
+            <!-- Play/Pause Button -->
+            <button id="playPause" class="btn"><i class="fas fa-play"></i></button>
+
+            <!-- Fast Forward Button -->
+            <button id="skipForward" class="btn"><i class="fas fa-forward"></i></button>
+
+            <!-- Live Button -->
+            <button id="liveButton" class="btn">LIVE</button>
+
+            <!-- Seek Bar -->
+            <input type="range" id="seekBar" class="seek-bar" min="0" max="100" value="0">
+            <span id="timeDisplay" class="time">00:00 / 00:00</span>
+
+            <!-- Volume Control Button -->
+            <button id="volumeControl" class="btn"><i class="fas fa-volume-up"></i></button>
+
+            <!-- Volume Slider Container -->
+            <div id="volumeSliderContainer" class="volume-slider-container">
+                <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.01" value="1">
+            </div>
+
+            <!-- Fullscreen Button -->
+            <button id="fullscreenButton" class="btn"><i class="fas fa-expand"></i></button>
+        </div>
+        <!-- Center Play/Pause Button -->
+        <button id="centerPlayPause" class="center-play-pause"><i class="fas fa-play"></i></button>
+    </div>
+    <div class="channel-buttons">
+        <button id="channel13" class="channel-button">13 LIVE</button>
+        <button id="channel26" class="channel-button">26 LIVE</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="script.js"></script>
+</body>
+</html>

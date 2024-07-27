@@ -1,0 +1,178 @@
+/* Main player container */
+.custom-player {
+    position: absolute; /* Center positioning */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center horizontally and vertically */
+    width: 100%;
+    max-width: 880px; /* Maximum width of the player */
+    background-color: rgba(0, 0, 0, 0.6); /* Transparent background (0.6 is the opacity level) */
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    cursor: auto;
+}
+
+/* Hide menu in fullscreen mode */
+.custom-player.fullscreen .controls {
+    display: none;
+}
+
+/* Video element */
+.video {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Container for control buttons */
+.controls {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    width: calc(100% - 40px);
+    justify-content: space-between;
+    padding: 0 20px;
+    background: rgba(0, 0, 0, 0.5); /* Make background more transparent */
+    border-radius: 5px;
+    transition: opacity 0.5s ease;
+    /* Ensure fixed sizes */
+    height: 50px; /* Height of the control container */
+}
+
+/* Control buttons */
+.btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 22px; /* Size of control buttons */
+    cursor: pointer;
+    margin: 0 5px;
+    /* Fixed size of buttons */
+    width: 40px;
+    height: 40px;
+}
+
+/* Seek bar */
+.seek-bar {
+    flex: 1;
+    margin: 0 10px;
+}
+
+/* Time display */
+.time {
+    color: white;
+    font-size: 16px; /* Size of time text */
+}
+
+/* Volume control container and slider */
+#volumeControl {
+    position: relative;
+}
+
+.volume-slider-container {
+    position: absolute;
+    bottom: 50px; /* Position of the slider relative to the volume button */
+    right: 0;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 5px;
+    border-radius: 5px;
+    display: none;
+    border: 1px solid #333;
+}
+
+.volume-slider {
+    width: 120px; /* Width of the volume slider */
+}
+
+/* Show slider container on hover over volume button */
+#volumeControl:hover #volumeSliderContainer,
+#volumeSliderContainer:hover {
+    display: block;
+}
+
+/* Fullscreen button */
+#fullscreenButton {
+    font-size: 22px; /* Size of the fullscreen button */
+}
+
+/* Channel buttons */
+.channel-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.channel-button {
+    margin: 5px;
+    padding: 12px 24px; /* Size of channel buttons */
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+.channel-button:hover {
+    background-color: #0056b3;
+}
+
+/* Center play/pause button */
+#centerPlayPause {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 36px; /* Size of icons */
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    width: 80px; /* Width of the button */
+    height: 80px; /* Height of the button */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10; /* Above other elements */
+    display: none; /* Hidden by default */
+}
+
+/* Show hidden elements */
+.hidden {
+    display: none !important;
+}
+
+/* Fullscreen mode */
+.custom-player.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+}
+
+/* LIVE button */
+#liveButton {
+    background-color: #ff0000; /* Red color for the LIVE button */
+    border: none;
+    border-radius: 7px;
+    color: white;
+    font-size: 11px; /* Size of text on the button */
+    cursor: pointer;
+    padding: 10px 10px; /* Size of the button */
+    display: flex;
+    align-items: center; /* Vertical alignment of text */
+    justify-content: center; /* Horizontal alignment of text */
+    text-align: center; /* Center alignment of text */
+    /* Set fixed height and width (if necessary) */
+    width: auto; /* Width adjusts automatically to content */
+    height: auto; /* Height adjusts automatically to content */
+}
+
+#liveButton:hover {
+    background-color: #cc0000; /* Darker red on hover */
+}
