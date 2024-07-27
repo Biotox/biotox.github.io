@@ -102,14 +102,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function showControls() {
         customPlayer.querySelector('.controls').style.display = 'flex';
-        clearTimeout(hideControlsTimeout);
-        hideControls();
+        clearTimeout(hideControlsTimeout); // Clear the existing timeout
+        hideControls(); // Restart the hide timeout
     }
 
     function hideControls() {
         hideControlsTimeout = setTimeout(() => {
             customPlayer.querySelector('.controls').style.display = 'none';
-        }, 3000);
+        }, 3000); // Hide after 3 seconds of inactivity
     }
 
     function handleMouseMove() {
@@ -142,6 +142,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 1000); // Hide after 1 second
     }
 
+    function handleKeyboardShortcuts(event) {
+        const key = event.code;
+        if (key === 'ArrowLeft') { // Skip back 10 seconds
+            skip(-10);
+        } else if (key === 'ArrowRight') { // Skip forward 10 seconds
+            skip(10);
+        }
+    }
+
     playPauseButton.addEventListener('click', togglePlayPause);
     centerPlayPauseButton.addEventListener('click', togglePlayPause);
     videoPlayer.addEventListener('click', togglePlayPause);
@@ -160,10 +169,11 @@ document.addEventListener('DOMContentLoaded', function () {
     volumeSlider.addEventListener('input', handleVolumeChange);
 
     document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('keydown', handleKeyboardShortcuts);
 
     document.querySelector('#channel13').addEventListener('click', () => loadStream(streamUrl13));
     document.querySelector('#channel26').addEventListener('click', () => loadStream(streamUrl26));
-    liveButton.addEventListener('click', goToLive); // LIVE button handler
+    liveButton.addEventListener('click', goToLive);
 
     loadStream(streamUrl13);
 
