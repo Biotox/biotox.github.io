@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const fullscreenButton = document.getElementById('fullscreenButton');
     const skipBackButton = document.getElementById('skipBack');
     const skipForwardButton = document.getElementById('skipForward');
-    const liveButton = document.getElementById('liveButton'); // Update LIVE button
+    const liveButton = document.getElementById('liveButton');
     const customPlayer = document.querySelector('.custom-player');
 
     let hideControlsTimeout;
@@ -125,11 +125,21 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function goToLive() {
-        // Fast forward video to the end and start playback
         videoPlayer.currentTime = videoPlayer.duration;
         videoPlayer.play().catch(error => {
             console.log('Play failed:', error);
         });
+    }
+
+    function showVolumeSlider() {
+        clearTimeout(volumeSliderTimeout);
+        volumeSliderContainer.style.display = 'block';
+    }
+
+    function hideVolumeSlider() {
+        volumeSliderTimeout = setTimeout(() => {
+            volumeSliderContainer.style.display = 'none';
+        }, 1000); // Hide after 1 second
     }
 
     playPauseButton.addEventListener('click', togglePlayPause);
@@ -143,10 +153,10 @@ document.addEventListener('DOMContentLoaded', function () {
     skipForwardButton.addEventListener('click', () => skip(10));
     fullscreenButton.addEventListener('click', toggleFullscreen);
 
-    volumeControl.addEventListener('mouseover', () => volumeSliderContainer.style.display = 'block');
-    volumeControl.addEventListener('mouseout', () => volumeSliderContainer.style.display = 'none');
-    volumeSliderContainer.addEventListener('mouseover', () => volumeSliderContainer.style.display = 'block');
-    volumeSliderContainer.addEventListener('mouseout', () => volumeSliderContainer.style.display = 'none');
+    volumeControl.addEventListener('mouseenter', showVolumeSlider);
+    volumeControl.addEventListener('mouseleave', hideVolumeSlider);
+    volumeSliderContainer.addEventListener('mouseenter', showVolumeSlider);
+    volumeSliderContainer.addEventListener('mouseleave', hideVolumeSlider);
     volumeSlider.addEventListener('input', handleVolumeChange);
 
     document.addEventListener('mousemove', handleMouseMove);
@@ -155,10 +165,8 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('#channel26').addEventListener('click', () => loadStream(streamUrl26));
     liveButton.addEventListener('click', goToLive); // LIVE button handler
 
-    // Load default stream
     loadStream(streamUrl13);
 
-    // Listen for fullscreen changes
     document.addEventListener('fullscreenchange', () => {
         if (document.fullscreenElement) {
             customPlayer.classList.add('fullscreen');
