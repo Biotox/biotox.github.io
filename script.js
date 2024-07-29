@@ -18,8 +18,16 @@ document.addEventListener('DOMContentLoaded', function () {
     let centerPlayPauseTimeout;
 
     const hls = new Hls();
+    const streamUrl12 = 'https://mako-streaming.akamaized.net/stream/hls/live/2033791/k12n12wad/profile/5/hdntl=exp=1722309736~acl=%2f*~data=hdntl~hmac=158cf711ea213920f25fb9a2f5d6b7fce2d79e91712063cace5713200aa85a64/profileManifest.m3u8?_uid=a61fdf03-d86a-479e-a617-98a29233d0b9&rK=a1&_did=952f1d728caea4ae8e181ce682b868502709c53d';
     const streamUrl13 = 'https://d18b0e6mopany4.cloudfront.net/out/v1/08bc71cf0a0f4712b6b03c732b0e6d25/index_3.m3u8';
     const streamUrl26 = 'https://d2lckchr9cxrss.cloudfront.net/out/v1/c73af7694cce4767888c08a7534b503c/index_3.m3u8';
+    const streamUrlKAN = 'https://kan11w.media.kan.org.il/hls/live/2105694/2105694/source1_4k/chunklist.m3u8';
+    const streamUrl14 = 'https://ch14-channel14-content.akamaized.net/hls/live/2104807/CH14_CHANNEL14/2/streamPlaylist.m3u8';
+    const streamUrlI24 = 'https://bcovlive-a.akamaihd.net/d89ede8094c741b7924120b27764153c/eu-central-1/5377161796001/profile_0/chunklist.m3u8';
+const streamUrl9 = 'https://a5.pokaz.me/1Hfa1A3SN2Dzy6tlO8cMsQ/185/1722242865/index.m3u8';
+
+    let isMuted = false; // Состояние звука
+    let previousVolume = 1; // Хранение предыдущего уровня громкости
 
     function loadStream(url) {
         if (Hls.isSupported()) {
@@ -95,9 +103,34 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    function toggleMute() {
+        isMuted = !isMuted; // Переключаем состояние
+        videoPlayer.muted = isMuted; // Устанавливаем muted в зависимости от состояния
+        if (isMuted) {
+            previousVolume = volumeSlider.value; // Сохраняем текущее значение громкости
+            volumeSlider.value = 0; // Устанавливаем громкость в 0
+        } else {
+            volumeSlider.value = previousVolume; // Восстанавливаем сохраненное значение громкости
+        }
+        videoPlayer.volume = volumeSlider.value; // Применяем громкость
+        updateVolumeControlIcon(); // Обновляем иконку на кнопке
+    }
+
+    function updateVolumeControlIcon() {
+        if (videoPlayer.muted) {
+            volumeControl.innerHTML = '<i class="fas fa-volume-mute"></i>'; // Иконка для выключенного звука
+        } else if (volumeSlider.value == 0) {
+            volumeControl.innerHTML = '<i class="fas fa-volume-off"></i>'; // Иконка для низкого уровня звука
+        } else {
+            volumeControl.innerHTML = '<i class="fas fa-volume-up"></i>'; // Иконка для включенного звука
+        }
+    }
+
     function handleVolumeChange() {
-        videoPlayer.volume = volumeSlider.value;
-        videoPlayer.muted = videoPlayer.volume === 0;
+        videoPlayer.volume = volumeSlider.value; // Обновляем громкость видео
+        videoPlayer.muted = videoPlayer.volume === 0; // Если громкость 0, устанавливаем muted
+        isMuted = videoPlayer.muted; // Обновляем состояние
+        updateVolumeControlIcon(); // Обновляем иконку на кнопке
     }
 
     function showControls() {
@@ -151,8 +184,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
     
-    
-
+    // Event listeners
     playPauseButton.addEventListener('click', togglePlayPause);
     centerPlayPauseButton.addEventListener('click', togglePlayPause);
     videoPlayer.addEventListener('click', togglePlayPause);
@@ -164,6 +196,7 @@ document.addEventListener('DOMContentLoaded', function () {
     skipForwardButton.addEventListener('click', () => skip(10));
     fullscreenButton.addEventListener('click', toggleFullscreen);
 
+    volumeControl.addEventListener('click', toggleMute);
     volumeControl.addEventListener('mouseenter', showVolumeSlider);
     volumeControl.addEventListener('mouseleave', hideVolumeSlider);
     volumeSliderContainer.addEventListener('mouseenter', showVolumeSlider);
@@ -173,9 +206,16 @@ document.addEventListener('DOMContentLoaded', function () {
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('keydown', handleKeyboardShortcuts);
 
-    document.querySelector('#channel13').addEventListener('click', () => loadStream(streamUrl13));
-    document.querySelector('#channel26').addEventListener('click', () => loadStream(streamUrl26));
-    liveButton.addEventListener('click', goToLive);
+    document.querySelector('#channel12').addEventListener('click', () => loadStream(streamUrl12));
+document.querySelector('#channel13').addEventListener('click', () => loadStream(streamUrl13));
+document.querySelector('#channel26').addEventListener('click', () => loadStream(streamUrl26));
+    document.querySelector('#channelKAN').addEventListener('click', () => loadStream(streamUrlKAN));
+document.querySelector('#channel14').addEventListener('click', () => loadStream(streamUrl14));
+document.querySelector('#channelI24').addEventListener('click', () => loadStream(streamUrlI24));
+document.querySelector('#channel9').addEventListener('click', () => loadStream(streamUrl9));
+
+liveButton.addEventListener('click', goToLive);
+
 
     loadStream(streamUrl13);
 
@@ -188,53 +228,6 @@ document.addEventListener('DOMContentLoaded', function () {
             showControls(); // Show controls when exiting fullscreen
         }
     });
-});
-document.addEventListener('DOMContentLoaded', function () {
-    const videoPlayer = document.getElementById('videoPlayer');
-    const volumeControl = document.getElementById('volumeControl');
-    const volumeSlider = document.getElementById('volumeSlider');
-    const volumeSliderContainer = document.getElementById('volumeSliderContainer');
 
-    // Состояние звука
-    let isMuted = false;
-    let previousVolume = 1; // Хранение предыдущего уровня громкости
-
-    function toggleMute() {
-        isMuted = !isMuted; // Переключаем состояние
-        videoPlayer.muted = isMuted; // Устанавливаем muted в зависимости от состояния
-        if (isMuted) {
-            previousVolume = volumeSlider.value; // Сохраняем текущее значение громкости
-            volumeSlider.value = 0; // Устанавливаем громкость в 0
-        } else {
-            volumeSlider.value = previousVolume; // Восстанавливаем сохраненное значение громкости
-        }
-        videoPlayer.volume = volumeSlider.value; // Применяем громкость
-        updateVolumeControlIcon(); // Обновляем иконку на кнопке
-    }
-
-    function updateVolumeControlIcon() {
-        if (videoPlayer.muted) {
-            volumeControl.innerHTML = '<i class="fas fa-volume-mute"></i>'; // Иконка для выключенного звука
-        } else if (volumeSlider.value == 0) {
-            volumeControl.innerHTML = '<i class="fas fa-volume-off"></i>'; // Иконка для низкого уровня звука
-        } else {
-            volumeControl.innerHTML = '<i class="fas fa-volume-up"></i>'; // Иконка для включенного звука
-        }
-    }
-
-    function handleVolumeChange() {
-        videoPlayer.volume = volumeSlider.value; // Обновляем громкость видео
-        videoPlayer.muted = videoPlayer.volume === 0; // Если громкость 0, устанавливаем muted
-        isMuted = videoPlayer.muted; // Обновляем состояние
-        updateVolumeControlIcon(); // Обновляем иконку на кнопке
-    }
-
-    // Обработчик события для кнопки звука
-    volumeControl.addEventListener('click', toggleMute);
-
-    // Обработчик события для изменения громкости через слайдер
-    volumeSlider.addEventListener('input', handleVolumeChange);
-
-    // Обновляем иконку при загрузке
-    updateVolumeControlIcon();
+    updateVolumeControlIcon(); // Update icon on boot
 });
