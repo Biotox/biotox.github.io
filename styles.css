@@ -177,5 +177,27 @@
     background-color: #cc0000; /* Darker red on hover */
 }
 #volumeSliderContainer {
-    pointer-events: auto; 
+    pointer-events: auto; /* Allows interaction with the element */
+}
+/* Title for channel buttons */
+.channel-israel-title {
+    text-align: center;
+    font-size: 24px;
+    color: #007bff; /* You can choose any color you prefer */
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: 2px solid #007bff; /* Underline with the same color */
+    padding-bottom: 10px; /* Space between the text and the underline */
+}
+/* Title for channel buttons */
+.channel-foreign-title {
+    text-align: center;
+    font-size: 24px;
+    color: #007bff; /* You can choose any color you prefer */
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: 2px solid #007bff; /* Underline with the same color */
+    padding-bottom: 10px; /* Space between the text and the underline */
 }
