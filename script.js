@@ -150,6 +150,8 @@ document.addEventListener('DOMContentLoaded', function () {
             skip(10);
         }
     }
+    
+    
 
     playPauseButton.addEventListener('click', togglePlayPause);
     centerPlayPauseButton.addEventListener('click', togglePlayPause);
@@ -186,4 +188,53 @@ document.addEventListener('DOMContentLoaded', function () {
             showControls(); // Show controls when exiting fullscreen
         }
     });
+});
+document.addEventListener('DOMContentLoaded', function () {
+    const videoPlayer = document.getElementById('videoPlayer');
+    const volumeControl = document.getElementById('volumeControl');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const volumeSliderContainer = document.getElementById('volumeSliderContainer');
+
+    // Состояние звука
+    let isMuted = false;
+    let previousVolume = 1; // Хранение предыдущего уровня громкости
+
+    function toggleMute() {
+        isMuted = !isMuted; // Переключаем состояние
+        videoPlayer.muted = isMuted; // Устанавливаем muted в зависимости от состояния
+        if (isMuted) {
+            previousVolume = volumeSlider.value; // Сохраняем текущее значение громкости
+            volumeSlider.value = 0; // Устанавливаем громкость в 0
+        } else {
+            volumeSlider.value = previousVolume; // Восстанавливаем сохраненное значение громкости
+        }
+        videoPlayer.volume = volumeSlider.value; // Применяем громкость
+        updateVolumeControlIcon(); // Обновляем иконку на кнопке
+    }
+
+    function updateVolumeControlIcon() {
+        if (videoPlayer.muted) {
+            volumeControl.innerHTML = '<i class="fas fa-volume-mute"></i>'; // Иконка для выключенного звука
+        } else if (volumeSlider.value == 0) {
+            volumeControl.innerHTML = '<i class="fas fa-volume-off"></i>'; // Иконка для низкого уровня звука
+        } else {
+            volumeControl.innerHTML = '<i class="fas fa-volume-up"></i>'; // Иконка для включенного звука
+        }
+    }
+
+    function handleVolumeChange() {
+        videoPlayer.volume = volumeSlider.value; // Обновляем громкость видео
+        videoPlayer.muted = videoPlayer.volume === 0; // Если громкость 0, устанавливаем muted
+        isMuted = videoPlayer.muted; // Обновляем состояние
+        updateVolumeControlIcon(); // Обновляем иконку на кнопке
+    }
+
+    // Обработчик события для кнопки звука
+    volumeControl.addEventListener('click', toggleMute);
+
+    // Обработчик события для изменения громкости через слайдер
+    volumeSlider.addEventListener('input', handleVolumeChange);
+
+    // Обновляем иконку при загрузке
+    updateVolumeControlIcon();
 });
