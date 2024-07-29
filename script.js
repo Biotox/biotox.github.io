@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let centerPlayPauseTimeout;
 
     const hls = new Hls();
-    const streamUrl12 = 'https://mako-streaming.akamaized.net/stream/hls/live/2033791/k12n12wad/profile/4/hdntl=exp=1722314374~acl=%2f*~data=hdntl~hmac=4c2165f938d5699e94fe030f53d19ed4de14506739c91afde6c575bd8ce6aba1/profileManifest.m3u8?_uid=b486f61b-1ebb-4e77-be7f-c538db6a518a&rK=a1&_did=b3aadc9753ac7e8d38afffdacc2ab2db208fbdee';
+    const streamUrl12 = 'https://mako-streaming.akamaized.net/stream/hls/live/2033791/k12n12wad/profile/2/hdntl=exp=1722314765~acl=%2f*~data=hdntl~hmac=2fcc16e15877d0b321dbd75eb2af210f7e6e75319286e4ce727cdaa690c2a4d9/profileManifest.m3u8?_uid=b506517c-d07f-4f12-a095-8c704b009836&rK=a3&_did=b3aadc9753ac7e8d38afffdacc2ab2db208fbdee';
     const streamUrl13 = 'https://d18b0e6mopany4.cloudfront.net/out/v1/08bc71cf0a0f4712b6b03c732b0e6d25/index_3.m3u8';
     const streamUrl26 = 'https://d2lckchr9cxrss.cloudfront.net/out/v1/c73af7694cce4767888c08a7534b503c/index_3.m3u8';
     const streamUrlKAN = 'https://kan11w.media.kan.org.il/hls/live/2105694/2105694/source1_4k/chunklist.m3u8';
