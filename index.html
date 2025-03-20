@@ -1,60 +1,174 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom Player Style</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta name="description" content="Прямая трансляция израильских телеканалов с улучшенным пользовательским интерфейсом">
+    <meta name="keywords" content="Израильское ТВ, прямая трансляция, каналы 13, 26, 12, KAN, 14, I24, 9">
+    <meta property="og:title" content="Израильские телеканалы - Прямая трансляция">
+    <meta property="og:description" content="Смотрите прямую трансляцию популярных израильских телеканалов с улучшенным пользовательским интерфейсом">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://example.com/images/preview.jpg">
+    <meta name="theme-color" content="#121212">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Израильские телеканалы - Прямая трансляция</title>
+    <link rel="stylesheet" href="styles.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="custom-player">
-        <video id="videoPlayer" class="video" preload="auto"></video>
-        <div class="controls">
-            <!-- Rewind Button -->
-            <button id="skipBack" class="btn"><i class="fas fa-backward"></i></button>
+    <header>
+        <h1>Израильские телеканалы</h1>
+        <button id="themeToggle" class="theme-toggle" aria-label="Переключить тему">
+            <i class="fas fa-moon"></i>
+            <span class="sr-only">Переключить тему</span>
+        </button>
+    </header>
 
-            <!-- Play/Pause Button -->
-            <button id="playPause" class="btn"><i class="fas fa-play"></i></button>
+    <main>
+        <div class="custom-player" role="region" aria-label="Видеоплеер">
+            <video id="videoPlayer" class="video" preload="auto" aria-label="Видеоконтент" playsinline></video>
+            
+            <div class="controls" role="group" aria-label="Элементы управления видео">
+                <!-- Кнопка перемотки назад -->
+                <button id="skipBack" class="btn" aria-label="Перемотать назад">
+                    <i class="fas fa-backward"></i>
+                    <span class="tooltip">Назад (←)</span>
+                </button>
 
-            <!-- Fast Forward Button -->
-            <button id="skipForward" class="btn"><i class="fas fa-forward"></i></button>
+                <!-- Кнопка воспроизведения/паузы -->
+                <button id="playPause" class="btn" aria-label="Воспроизвести или приостановить видео">
+                    <i class="fas fa-play"></i>
+                    <span class="tooltip">Воспроизвести (Пробел)</span>
+                </button>
 
-            <!-- Live Button -->
-            <button id="liveButton" class="btn">LIVE</button>
+                <!-- Кнопка перемотки вперед -->
+                <button id="skipForward" class="btn" aria-label="Перемотать вперед">
+                    <i class="fas fa-forward"></i>
+                    <span class="tooltip">Вперед (→)</span>
+                </button>
 
-            <!-- Seek Bar -->
-            <input type="range" id="seekBar" class="seek-bar" min="0" max="100" value="0">
-            <span id="timeDisplay" class="time">00:00 / 00:00</span>
+                <!-- Кнопка Live -->
+                <button id="liveButton" class="btn" aria-label="Перейти к прямой трансляции">
+                    LIVE
+                    <span class="tooltip">Прямой эфир (L)</span>
+                </button>
 
-            <!-- Volume Control Button -->
-            <button id="volumeControl" class="btn"><i class="fas fa-volume-up"></i></button>
+                <!-- Ползунок прогресса -->
+                <div class="seek-bar-container">
+                    <input type="range" id="seekBar" class="seek-bar" min="0" max="100" value="0" 
+                           aria-label="Прогресс видео" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                </div>
+                
+                <!-- Отображение времени -->
+                <span id="timeDisplay" class="time" aria-live="polite">00:00 / 00:00</span>
 
-            <!-- Volume Slider Container -->
-            <div id="volumeSliderContainer" class="volume-slider-container">
-                <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.01" value="1">
+                <!-- Кнопка управления звуком -->
+                <div class="volume-control-container">
+                    <button id="volumeControl" class="btn" aria-label="Управление звуком">
+                        <i class="fas fa-volume-up"></i>
+                        <span class="tooltip">Звук (M)</span>
+                    </button>
+
+                    <!-- Контейнер ползунка громкости -->
+                    <div id="volumeSliderContainer" class="volume-slider-container">
+                        <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.01" value="0.8" 
+                               aria-label="Регулировка громкости" aria-valuemin="0" aria-valuemax="100">
+                    </div>
+                </div>
+
+                <!-- Кнопка полноэкранного режима -->
+                <button id="fullscreenButton" class="btn" aria-label="Переключить полноэкранный режим">
+                    <i class="fas fa-expand"></i>
+                    <span class="tooltip">Полный экран (F)</span>
+                </button>
             </div>
-
-            <!-- Fullscreen Button -->
-            <button id="fullscreenButton" class="btn"><i class="fas fa-expand"></i></button>
+            
+            <!-- Центральная кнопка воспроизведения/паузы -->
+            <button id="centerPlayPause" class="center-play-pause" aria-label="Воспроизвести или приостановить видео">
+                <i class="fas fa-play"></i>
+            </button>
+            
+            <!-- Состояние ошибки -->
+            <div id="errorState" class="error-state" aria-hidden="true">
+                <i class="fas fa-exclamation-triangle fa-3x"></i>
+                <span></span>
+                <button id="errorRetryButton">Повторить попытку</button>
+            </div>
+            
+            <!-- Индикатор буферизации -->
+            <div id="bufferingIndicator" class="buffering-indicator" aria-hidden="true">
+                <div class="spinner">
+                    <div class="bounce1"></div>
+                    <div class="bounce2"></div>
+                    <div class="bounce3"></div>
+                </div>
+                <div class="buffering-text">Буферизация...</div>
+            </div>
+            
+            <!-- Информация о клавиатурной навигации -->
+            <button class="show-keyboard-info" aria-label="Показать информацию о клавиатурных сокращениях">
+                <i class="fas fa-keyboard"></i>
+            </button>
+            
+            <div class="keyboard-navigation-info">
+                <h3>Клавиатурные сокращения</h3>
+                <ul>
+                    <li><kbd>Пробел</kbd> Воспроизведение/Пауза</li>
+                    <li><kbd>←</kbd> Перемотка назад</li>
+                    <li><kbd>→</kbd> Перемотка вперед</li>
+                    <li><kbd>↑</kbd> Увеличить громкость</li>
+                    <li><kbd>↓</kbd> Уменьшить громкость</li>
+                    <li><kbd>M</kbd> Отключить/включить звук</li>
+                    <li><kbd>F</kbd> Полноэкранный режим</li>
+                    <li><kbd>L</kbd> Перейти к прямому эфиру</li>
+                </ul>
+            </div>
         </div>
-        <!-- Center Play/Pause Button -->
-        <button id="centerPlayPause" class="center-play-pause"><i class="fas fa-play"></i></button>
-    </div>
-    <div class="channel-israel-title">Israel Channels</div>
 
-    <div class="channel-buttons">
-        <button id="channel13" class="channel-button">13 LIVE</button>
-        <button id="channel26" class="channel-button">26 LIVE</button>
-    <button id="channel12" class="channel-button">12 LIVE</button>
-    <button id="channelKAN" class="channel-button">KAN LIVE</button>
-<button id="channel14" class="channel-button">14 LIVE</button>
-<button id="channelI24" class="channel-button">I24 LIVE</button>
-<button id="channel9" class="channel-button">9 LIVE</button>
+        <section class="channels-section" aria-label="Доступные каналы">
+            <h2>Доступные каналы</h2>
+            <div class="channel-buttons">
+                <button id="channel13" class="channel-button" aria-label="Канал 13">
+                    <span class="channel-number">13</span>
+                    <span class="channel-live">LIVE</span>
+                </button>
+                <button id="channel26" class="channel-button" aria-label="Канал 26">
+                    <span class="channel-number">26</span>
+                    <span class="channel-live">LIVE</span>
+                </button>
+                <button id="channel12" class="channel-button" aria-label="Канал 12">
+                    <span class="channel-number">12</span>
+                    <span class="channel-live">LIVE</span>
+                </button>
+                <button id="channelKAN" class="channel-button" aria-label="Канал KAN">
+                    <span class="channel-number">KAN</span>
+                    <span class="channel-live">LIVE</span>
+                </button>
+                <button id="channel14" class="channel-button" aria-label="Канал 14">
+                    <span class="channel-number">14</span>
+                    <span class="channel-live">LIVE</span>
+                </button>
+                <button id="channelI24" class="channel-button" aria-label="Канал I24">
+                    <span class="channel-number">I24</span>
+                    <span class="channel-live">LIVE</span>
+                </button>
+                <button id="channel9" class="channel-button" aria-label="Канал 9">
+                    <span class="channel-number">9</span>
+                    <span class="channel-live">LIVE</span>
+                </button>
+            </div>
+        </section>
+    </main>
 
+    <footer>
+        <p>&copy; <span id="currentYear">2024</span> Израильские телеканалы. Все права защищены.</p>
+    </footer>
 
-    </div>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <script src="script.js"></script>
+    <script src="script.min.js"></script>
 </body>
 </html>
